@@ -1,16 +1,36 @@
-# React + Vite
+﻿# Mano knygų lentyna
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite aplikacija knygoms atrasti ir būsimai asmeninei bibliotekai tvarkyti. Sąsaja lietuviška, su atskirais CSS failais ir responsyviu išdėstymu.
 
-Currently, two official plugins are available:
+## Paleidimas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```sh
+npm install
+npm run dev
+```
 
-## React Compiler
+Atidarykite terminale nurodytą vietinį adresą.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Pirmoji pagrindinio puslapio versija
 
-## Expanding the ESLint configuration
+- Pasisveikinimo skiltis ir knygų iliustracija, sukurta CSS.
+- Knygų paieška pagal pavadinimą arba autorių per Open Library API (iki 12 rezultatų).
+- Knygų viršeliai, autoriai, pirmojo leidimo metai ir nuorodos į Open Library.
+- Įkėlimo, tuščios paieškos, nerastų rezultatų ir užklausos klaidų pranešimai.
+- Pakaitinis vaizdas, kai viršelio nėra arba jis neįkeliamas.
+- Būsimos asmeninės lentynos pristatymas.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Supabase, registracija, prisijungimas, knygų išsaugojimas ir skaitymo būsenų keitimas dar neįgyvendinti. Puslapis nesaugo asmeninių duomenų; paieškos rezultatai išnyksta perkrovus puslapį.
+
+API dokumentacija: [paieška](https://openlibrary.org/dev/docs/api/search), [viršeliai](https://openlibrary.org/dev/docs/api/covers).
+
+## Patikrinimas
+
+```sh
+npm run build
+npm run lint
+```
+
+Naršyklėje patikrinkite paiešką (pvz., „Tolkien“), tuščią užklausą, nieko nerandantį tekstą ir užklausą išjungus internetą. Patikrinkite navigaciją bei išdėstymą kompiuterio ir telefono pločiuose.
+
+Projekto kryptis aprašyta `docs/idea.md` ir `docs/mvp.md`.
