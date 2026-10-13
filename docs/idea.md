@@ -1,44 +1,21 @@
-# Mano knygų lentyna
+# Projekto idėja
 
-## Projekto idėja
+„Mano knygų lentyna“ skirta skaitytojams, norintiems atrasti tikras knygas ir vienoje vietoje tvarkyti asmeninį skaitymo sąrašą.
 
-Sukurti internetinę aplikaciją, kurioje vartotojas galėtų ieškoti tikrų knygų, išsaugoti pasirinktas knygas savo asmeninėje lentynoje ir stebėti skaitymo eigą.
+## Problema ir sprendimas
 
-## Problema
+Knygų pavadinimai bei skaitymo planai dažnai išsibarsto užrašuose. Aplikacija sujungia Open Library paiešką su privačia Supabase saugoma lentyna.
 
-Skaitytojams ne visada patogu vienoje vietoje saugoti norimų perskaityti, šiuo metu skaitomų ir jau perskaitytų knygų sąrašus.
+## Naudojimo scenarijus
 
-## Tikslinė auditorija
+1. Lankytojas ieško pagal pavadinimą arba autorių; paskyra paieškai nereikalinga.
+2. Užsiregistruoja, patvirtina el. paštą, jei reikalaujama, ir prisijungia.
+3. Prideda knygą su būsena „Noriu perskaityti“.
+4. Keičia būseną į „Skaitoma“, vėliau – „Perskaityta“.
+5. Sugrįžęs mato išsaugotą lentyną arba pašalina knygą.
 
-Žmonės, mėgstantys skaityti knygas ir norintys tvarkyti savo asmeninę biblioteką.
+## Kryptis
 
-## Sprendimas
+Lietuviška minimalistinė sąsaja: šviesus fonas, žalsvi akcentai, aiškūs viršeliai ir apvalintos kortelės. Išdėstymas pritaikytas kompiuteriui ir telefonui. Kiekvienas vartotojas gali skaityti ir keisti tik savo knygas.
 
-Aplikacija leis:
-- Ieškoti tikrų knygų naudojant „Open Library API“.
-- Peržiūrėti knygų pavadinimus, autorius ir viršelius, kai šie duomenys prieinami.
-- Pridėti knygas į asmeninę lentyną.
-- Pažymėti skaitymo būseną.
-- Redaguoti ir ištrinti išsaugotus įrašus.
-
-## Pagrindinis naudojimo scenarijus
-
-1. Vartotojas atidaro aplikaciją.
-2. Paieškoje įveda knygos pavadinimą.
-3. Pasirenka knygą iš rezultatų.
-4. Prideda ją į savo lentyną.
-5. Nustato skaitymo būseną.
-6. Vėliau gali pakeisti būseną arba pašalinti knygą.
-
-## Technologijos
-
-- JavaScript
-- React + Vite
-- CSS
-- Open Library API
-- Supabase
-- GitHub
-
-## Projekto tikslas
-
-Sukurti veikiančią aplikaciją, kuri naudoja išorinį API, saugo duomenis „Supabase“ duomenų bazėje ir leidžia atlikti CRUD operacijas.
+Technologijos: React, Vite, JavaScript / JSX, CSS, Supabase PostgreSQL bei Auth, Open Library API. Funkcijų ribos aprašytos [MVP](mvp.md).

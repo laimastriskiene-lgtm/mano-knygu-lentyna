@@ -1,42 +1,33 @@
-# Mano knygų lentyna – MVP
+# MVP specifikacija
 
-## 1. Projekto tikslas
+## Tikslas ir būklė
 
-Sukurti internetinę aplikaciją, kurioje vartotojas galėtų ieškoti tikrų knygų ir tvarkyti savo asmeninį skaitymo sąrašą.
+Lietuviška aplikacija knygų paieškai ir privačiai lentynai. Pagrindinės funkcijos įgyvendintos React kode; nuotolinę integraciją dar reikia patvirtinti pagal [testavimo scenarijus](testing.md).
 
-## 2. Būtinos funkcijos (P0)
+## Būtinos funkcijos
 
-1. Ieškoti knygų pagal pavadinimą arba autorių naudojant Open Library API.
-2. Rodyti knygų pavadinimus, autorius ir viršelius, jei jie prieinami.
-3. Pridėti pasirinktą knygą į savo lentyną.
-4. Peržiūrėti išsaugotas knygas.
-5. Keisti skaitymo būseną: „Noriu perskaityti“, „Skaitoma“, „Perskaityta“.
-6. Pašalinti knygą iš lentynos.
-7. Išsaugoti duomenis Supabase duomenų bazėje.
+- Registracija ir prisijungimas el. paštu bei slaptažodžiu, atsijungimas ir sesijos atkūrimas.
+- Vieša Open Library paieška, iki 12 rezultatų, prieinami viršeliai ir autoriai.
+- Prisijungus: knygos pridėjimas, lentynos peržiūra, būsenos keitimas ir pašalinimas.
+- Tik būsenos „Noriu perskaityti“, „Skaitoma“, „Perskaityta“.
+- Supabase išsaugojimas, dublikatų prevencija, vartotojų izoliacija per RLS.
+- Aiškios lietuviškos klaidos ir responsyvi sąsaja.
 
-## 3. Papildomos funkcijos (P1)
+## Priėmimo kriterijai
 
-- Filtruoti knygas pagal skaitymo būseną.
-- Filtruoti knygas pagal žanrą.
+1. Atsijungęs lankytojas gali ieškoti, bet negali naudoti privačios lentynos.
+2. Registracija veikia pagal el. pašto patvirtinimo nustatymus; neteisingi prisijungimo duomenys pateikia klaidą.
+3. Pridėta knyga matoma Supabase ir lentynoje su savo user_id bei pradine būsena „Noriu perskaityti“.
+4. Knyga ir pakeista būsena išlieka perkrovus puslapį.
+5. Pašalinimą atšaukus knyga lieka, patvirtinus – pašalinama ir nebegrįžta.
+6. Viena paskyra negali išsaugoti to paties kūrinio du kartus, net dviejuose skirtukuose. Skirtingos paskyros gali saugoti tą patį kūrinį.
+7. Svetimų knygų SELECT, UPDATE ir DELETE neprieinami, INSERT ar savininko keitimas į svetimą user_id atmetami net tiesiogine API užklausa.
+8. Knygos be viršelio, autoriaus ar temos apdorojamos; trūkstami ryšiai lieka NULL.
+9. Tinklo ir DB klaidos parodomos; nesėkmingi veiksmai neatrodo išsaugoti.
+10. Veikia klaviatūros navigacija ir išdėstymas 360 px bei 1280 px pločiuose; build ir lint sėkmingi.
 
-## 4. Ateities funkcijos (P2)
+## Ribos ir vėlesni darbai
 
-- Vertinti perskaitytas knygas.
-- Rašyti atsiliepimus.
-- Matyti skaitymo statistiką.
+Saugomas vienas autorius ir viena temos žyma kaip žanras; leidimo metai rodomi tik paieškoje. Nėra laisvo pavadinimo redagavimo, slaptažodžio atkūrimo ar paskyros pašalinimo sąsajos.
 
-## 5. Priėmimo kriterijai (Acceptance Criteria)
-
-- Įvedus knygos pavadinimą, pateikiami atitinkami paieškos rezultatai.
-- Jei paieška nesėkminga, vartotojas mato aiškų pranešimą.
-- Pasirinkus „Pridėti į lentyną“, knyga išsaugoma Supabase.
-- Pridėta knyga matoma asmeninėje lentynoje.
-- Vartotojas gali pakeisti knygos skaitymo būseną.
-- Vartotojas gali pašalinti knygą.
-- Perkrovus puslapį, išsaugotos knygos išlieka.
-- Negalima pridėti tos pačios knygos du kartus.
-- Duomenų bazės klaidos atveju rodomas pranešimas.
-
-## 6. Technologijos
-
-JavaScript, React, Vite, CSS, Open Library API, Supabase, GitHub.
+P1: būsenos ir žanro filtrai. P2: vertinimai, atsiliepimai ir statistika. Šios funkcijos dar neįgyvendintos. Darbų eiga – [įgyvendinimo plane](implementation-plan.md).
