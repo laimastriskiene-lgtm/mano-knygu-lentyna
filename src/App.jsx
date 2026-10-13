@@ -1,5 +1,6 @@
-﻿import { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import './App.css'
+import AuthPanel from './AuthPanel.jsx'
 
 function BookIcon() {
   return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 5v15M12 5C9 3 5 3 2 4v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1Z" /></svg>
@@ -71,7 +72,7 @@ function App() {
     <>
       <header className="site-header">
         <a className="brand" href="#pradzia"><span className="brand-icon"><BookIcon /></span>Mano knygų lentyna</a>
-        <nav aria-label="Pagrindinė navigacija"><a href="#paieska">Atrask knygas</a><a href="#lentyna">Mano lentyna</a></nav>
+        <nav aria-label="Pagrindinė navigacija"><a href="#paieska">Atrask knygas</a><a href="#lentyna">Mano lentyna</a><a href="#paskyra">Paskyra</a></nav>
       </header>
       <main id="pradzia">
         <section className="hero" aria-labelledby="hero-title">
@@ -103,6 +104,7 @@ function App() {
           </div>
           {!loading && !error && books.length > 0 && <div className="book-grid">{books.map((book) => <BookCard key={book.key} book={book} />)}</div>}
         </section>
+        <AuthPanel />
         <section id="lentyna" className="shelf-section" aria-labelledby="shelf-title">
           <div className="section-heading"><div><span className="eyebrow">TAVO SKAITYMO KELIONĖ</span><h2 id="shelf-title">Vieta tavo knygoms</h2></div><span className="coming-soon">Netrukus</span></div>
           <div className="shelf-preview"><span className="shelf-icon"><BookIcon /></span><h3>Kiekviena lentyna prasideda nuo vienos knygos.</h3><p>Čia galėsi saugoti knygas, kurias nori perskaityti,<br className="desktop-break" /> skaitai dabar ar jau užvertei paskutinį jų puslapį.</p><div className="status-tags"><span><i />Noriu perskaityti</span><span><i />Skaitoma</span><span><i />Perskaityta</span></div><p className="preview-note">Asmeninės lentynos funkcija dar kuriama.</p></div>
