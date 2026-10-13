@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { supabase, supabaseConfigurationError } from './lib/supabase'
 import './AuthPanel.css'
 
@@ -18,9 +18,7 @@ function authErrorMessage(error) {
   return messages[error?.code] || 'Veiksmo atlikti nepavyko. Patikrinkite interneto ryšį ir bandykite dar kartą.'
 }
 
-function AuthPanel() {
-  const [session, setSession] = useState(null)
-  const [initializing, setInitializing] = useState(Boolean(supabase))
+function AuthPanel({ session, initializing, setSession }) {
   const [mode, setMode] = useState('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -28,30 +26,6 @@ function AuthPanel() {
   const [error, setError] = useState(supabaseConfigurationError)
   const [message, setMessage] = useState('')
   const pending = useRef(false)
-
-  useEffect(() => {
-    if (!supabase) return
-    let active = true
-    let authEventReceived = false
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, nextSession) => {
-      if (!active) return
-      authEventReceived = true
-      setSession(nextSession)
-      setInitializing(false)
-      if (event === 'SIGNED_IN') setPassword('')
-    })
-    supabase.auth.getSession().then(({ data, error: sessionError }) => {
-      if (!active || authEventReceived) return
-      setSession(data.session)
-      if (sessionError) setError('Nepavyko atkurti prisijungimo būsenos. Bandykite prisijungti iš naujo.')
-      setInitializing(false)
-    }).catch(() => {
-      if (!active || authEventReceived) return
-      setError('Nepavyko atkurti prisijungimo būsenos. Patikrinkite interneto ryšį ir perkraukite puslapį.')
-      setInitializing(false)
-    })
-    return () => { active = false; subscription.unsubscribe() }
-  }, [])
 
   async function submit(event) {
     event.preventDefault()

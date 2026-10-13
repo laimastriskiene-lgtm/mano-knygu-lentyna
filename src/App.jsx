@@ -1,29 +1,33 @@
 import { useRef, useState } from 'react'
 import './App.css'
 import AuthPanel from './AuthPanel.jsx'
+import PersonalLibrary from './PersonalLibrary.jsx'
+import { useAuth } from './lib/useAuth'
 
 function BookIcon() {
   return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 5v15M12 5C9 3 5 3 2 4v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1Z" /></svg>
 }
 
-function BookCard({ book }) {
+function BookCard({ book, children }) {
   const [coverFailed, setCoverFailed] = useState(false)
   return (
     <article className="book-card">
       <div className="book-cover">
-        {book.cover_i && !coverFailed ? <img src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg?default=false`} alt={`Knygos „${book.title}“ viršelis`} loading="lazy" onError={() => setCoverFailed(true)} /> : <div className="cover-placeholder"><BookIcon /><span>Viršelio nėra</span></div>}
+        {(book.cover_url || book.cover_i) && !coverFailed ? <img src={book.cover_url || `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg?default=false`} alt={`Knygos „${book.title}“ viršelis`} loading="lazy" onError={() => setCoverFailed(true)} /> : <div className="cover-placeholder"><BookIcon /><span>Viršelio nėra</span></div>}
       </div>
       <div className="book-info">
         <h3>{book.title}</h3>
         <p>{Array.isArray(book.author_name) && book.author_name.length ? book.author_name.join(', ') : 'Autorius nežinomas'}</p>
         <span className="book-year">{book.first_publish_year ? `${book.first_publish_year} m.` : 'Leidimo metai nežinomi'}</span>
         <a className="book-link" href={`https://openlibrary.org${book.key}`} target="_blank" rel="noopener noreferrer" aria-label={`Peržiūrėti „${book.title}“ Open Library (naujame skirtuke)`}>Apie knygą <span aria-hidden="true">↗</span></a>
+        {children}
       </div>
     </article>
   )
 }
 
 function App() {
+  const { session, setSession, initializing, error: authError } = useAuth()
   const [query, setQuery] = useState('')
   const [books, setBooks] = useState([])
   const [loading, setLoading] = useState(false)
@@ -49,12 +53,13 @@ function App() {
     setSearchedQuery(search)
     const timeout = setTimeout(() => controller.abort(), 15000)
     try {
-      const params = new URLSearchParams({ q: search, limit: '12', fields: 'key,title,author_name,cover_i,first_publish_year', lang: 'lt' })
+      const params = new URLSearchParams({ q: search, limit: '12', fields: 'key,title,author_name,cover_i,first_publish_year,subject', lang: 'lt' })
       const response = await fetch(`https://openlibrary.org/search.json?${params}`, { signal: controller.signal })
       if (!response.ok) throw new Error('Search failed')
       const data = await response.json()
       if (!Array.isArray(data.docs)) throw new Error('Invalid response')
       const seen = new Set()
+      if (requestRef.current !== controller) return
       setBooks(data.docs.filter((book) => {
         if (!book || typeof book.title !== 'string' || typeof book.key !== 'string' || !/^\/works\/OL\d+W$/.test(book.key) || seen.has(book.key)) return false
         seen.add(book.key)
@@ -102,13 +107,10 @@ function App() {
           <div className="search-feedback" aria-live="polite" aria-atomic="true">
             {error ? <p className="error-message" role="alert">{error}</p> : loading ? <p>Ieškome tavo kitos knygos…</p> : searchedQuery ? <p>{books.length ? `Paieška „${searchedQuery}“: rodoma ${books.length} knygų.` : `Pagal „${searchedQuery}“ knygų neradome. Pabandyk kitą pavadinimą arba autorių.`}</p> : null}
           </div>
-          {!loading && !error && books.length > 0 && <div className="book-grid">{books.map((book) => <BookCard key={book.key} book={book} />)}</div>}
         </section>
-        <AuthPanel />
-        <section id="lentyna" className="shelf-section" aria-labelledby="shelf-title">
-          <div className="section-heading"><div><span className="eyebrow">TAVO SKAITYMO KELIONĖ</span><h2 id="shelf-title">Vieta tavo knygoms</h2></div><span className="coming-soon">Netrukus</span></div>
-          <div className="shelf-preview"><span className="shelf-icon"><BookIcon /></span><h3>Kiekviena lentyna prasideda nuo vienos knygos.</h3><p>Čia galėsi saugoti knygas, kurias nori perskaityti,<br className="desktop-break" /> skaitai dabar ar jau užvertei paskutinį jų puslapį.</p><div className="status-tags"><span><i />Noriu perskaityti</span><span><i />Skaitoma</span><span><i />Perskaityta</span></div><p className="preview-note">Asmeninės lentynos funkcija dar kuriama.</p></div>
-        </section>
+        <PersonalLibrary key={session?.user.id || 'signed-out'} userId={session?.user.id} initializing={initializing} searchBooks={!loading && !error ? books : []} BookCard={BookCard} />
+        {authError && <p className="error-message" role="alert">{authError}</p>}
+        <AuthPanel session={session} setSession={setSession} initializing={initializing} />
       </main>
       <footer><a className="footer-brand" href="#pradzia"><BookIcon />Mano knygų lentyna</a><span>Maža vieta didelėms istorijoms.</span></footer>
     </>
