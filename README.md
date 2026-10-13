@@ -1,5 +1,11 @@
 # Mano knygų lentyna
+## Veikianti svetainė
 
+Projektas publikuotas Vercel platformoje.
+
+**Svetainės nuoroda:** https://mano-knygu-lentyna.vercel.app/
+
+Svetainėje galima registruotis, prisijungti, ieškoti knygų ir tvarkyti asmeninę knygų lentyną. Duomenys saugomi Supabase duomenų bazėje.
 Internetinė knygų paieškos ir asmeninės bibliotekos aplikacija. Tikslas – vienoje vietoje saugoti norimas perskaityti, skaitomas ir perskaitytas knygas. Lietuviška sąsaja prisitaiko prie kompiuterio ir telefono ekranų.
 
 ## Technologijos
