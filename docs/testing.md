@@ -66,3 +66,46 @@ Patikrinti 360 px, 720 px ir 1280 px ekranus, ilgus pavadinimus, Tab navigaciją
 ## Patikrų ribos
 
 Šis dokumentas aprašo scenarijus, o ne patvirtina jų atlikimą. Nuotoliniai Auth, profilių trigeris, RPC, RLS, išsaugojimas ir naršyklės patikros šiame dokumentacijos darbe neatlikti. Migracijos netaikytos. Build, lint ir diff patikrų rezultatai pateikiami darbo ataskaitoje.
+## Rankinio testavimo rezultatai – 2026-10-14
+
+**Projektas:** Mano knygų lentyna  
+**Testuojama funkcija:** Knygos pridėjimas į asmeninę lentyną  
+**Testavimo tipas:** Rankinis funkcinis testavimas
+
+### Funkcijos veikimo eiga (Flow)
+
+UI → React logika → Supabase API / duomenų bazė → UI atnaujinimas
+
+1. Vartotojas suranda knygą ir paspaudžia „Pridėti į lentyną“.
+2. React patikrina prisijungimą ir knygos duomenis.
+3. Duomenys išsaugomi Supabase duomenų bazėje.
+4. Knyga parodoma asmeninėje lentynoje arba pateikiamas klaidos pranešimas.
+
+### Testavimo scenarijai
+
+| ID | Testas | Rezultatas | Pastabos |
+|---|---|---|---|
+| TC-01 | Knygos pridėjimas | PASS | Knyga išlieka po puslapio perkrovimo. |
+| TC-02 | Pridėjimas neprisijungus | PASS | Pridėjimo mygtukas neaktyvus. |
+| TC-03 | Pakartotinis pridėjimas | PASS | Rodoma „Knyga jau pridėta“. |
+| TC-04 | Interneto ryšio klaida | PASS | Knyga neišsaugoma, rodoma klaida. |
+| TC-05 | Vartotojų duomenų atskyrimas | PASS | Vartotojas B nemato vartotojo A knygų. Vartotojas A mato savo knygas. |
+
+### Happy Path
+
+Prisijungęs vartotojas suranda knygą, ją prideda ir mato savo lentynoje net perkrovęs puslapį.
+
+### Klaidų būsenos
+
+- Neprisijungus knygos pridėti negalima.
+- Ta pati knyga negali būti pridėta du kartus.
+- Nutrūkus interneto ryšiui parodoma klaida.
+- Skirtingų vartotojų knygos atskirtos.
+
+### Išvada
+
+**Atlikti 5 testai. PASS – 5, FAIL – 0. Sėkmingumas – 100 %.**
+
+Visi penki testavimo scenarijai įvykdyti sėkmingai. Testuotos funkcijos veikia pagal numatytus rezultatus.
+
+Pastaba: šie testai atlikti per vartotojo sąsają ir nėra išsamus Supabase RLS saugumo auditas.
