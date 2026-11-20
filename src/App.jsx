@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import './App.css'
 import AuthPanel from './AuthPanel.jsx'
 import PersonalLibrary from './PersonalLibrary.jsx'
+import RecommendationAssistant from './RecommendationAssistant.jsx'
 import { useAuth } from './lib/useAuth'
 
 function BookIcon() {
@@ -104,6 +105,7 @@ function App() {
             <button className="primary-button" type="submit" disabled={loading}>{loading ? 'Ieškoma…' : 'Ieškoti'}<span aria-hidden="true">→</span></button>
           </form>
           <p className="search-hint">Ieškok lietuviškai arba originalo kalba – knygų pasaulis platus.</p>
+          <RecommendationAssistant key={session?.user.id || 'signed-out'} session={session} initializing={initializing} />
           <div className="search-feedback" aria-live="polite" aria-atomic="true">
             {error ? <p className="error-message" role="alert">{error}</p> : loading ? <p>Ieškome tavo kitos knygos…</p> : searchedQuery ? <p>{books.length ? `Paieška „${searchedQuery}“: rodoma ${books.length} knygų.` : `Pagal „${searchedQuery}“ knygų neradome. Pabandyk kitą pavadinimą arba autorių.`}</p> : null}
           </div>

@@ -1,0 +1,21 @@
+.recommendation-assistant { margin-top: 20px; border: 1px solid #dce3d6; border-radius: 12px; background: #fff; }
+.recommendation-assistant summary { padding: 16px 20px; color: #365332; font-weight: 600; cursor: pointer; }
+.assistant-content { display: grid; gap: 16px; padding: 0 20px 20px; font-size: 14px; }
+.assistant-content a { color: #365332; text-underline-offset: 3px; }
+.assistant-notice { padding: 12px 14px; border-radius: 8px; background: #edf2e7; color: #4b6745; }
+.assistant-history { max-height: 280px; overflow-y: auto; padding: 14px; border: 1px solid #e4e8df; border-radius: 9px; background: #fafbf8; }
+.assistant-empty { color: #697661; }
+.assistant-history ol { display: grid; gap: 10px; padding: 0; margin: 0; list-style: none; }
+.assistant-history li { padding: 10px 12px; border-radius: 9px; background: #edf2e7; overflow-wrap: anywhere; white-space: pre-wrap; }
+.assistant-history li span { display: block; color: #4b6745; font-size: 12px; font-weight: 600; }
+.assistant-form { display: grid; gap: 8px; }
+.assistant-form label { font-weight: 600; }
+.assistant-form textarea { width: 100%; min-width: 0; resize: vertical; padding: 10px 12px; border: 1px solid #dce3d6; border-radius: 9px; color: #283c32; font: inherit; }
+.assistant-form textarea:focus-visible { outline: 3px solid #638d68; outline-offset: 2px; }
+.assistant-form button { justify-self: start; margin-top: 4px; }
+.assistant-form button:disabled { cursor: not-allowed; }
+@media (max-width: 720px) {
+  .recommendation-assistant summary { padding: 14px; }
+  .assistant-content { padding: 0 14px 14px; }
+  .assistant-form button { justify-self: stretch; }
+}
